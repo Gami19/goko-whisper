@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { DividerLine } from "../components/DividerLine";
 import { PageLayout } from "../components/PageLayout";
+import type { PageVariant } from "../components/PageLayout";
 import { StampEffect } from "../components/StampEffect";
 import { TextButton } from "../components/TextButton";
 import { WhisperReveal } from "../components/WhisperReveal";
@@ -8,10 +9,11 @@ import type { WhisperContent } from "../types";
 
 type StampPageProps = {
   content: WhisperContent;
+  variant: Extract<PageVariant, "stamp1" | "stamp2">;
   onComplete: () => void;
 };
 
-export function StampPage({ content, onComplete }: StampPageProps) {
+export function StampPage({ content, variant, onComplete }: StampPageProps) {
   const [stamping, setStamping] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -25,14 +27,16 @@ export function StampPage({ content, onComplete }: StampPageProps) {
     onComplete();
   }, [onComplete]);
 
+  const whisperTone = variant === "stamp2" ? "glow" : "primary";
+
   return (
-    <PageLayout variant="stamp">
+    <PageLayout variant={variant}>
       <p className="text-label">── {content.label} ──</p>
-      <WhisperReveal text={content.text} />
+      <WhisperReveal text={content.text} tone={whisperTone} />
       <DividerLine variant="dashed" />
       <p className="text-hint">{content.hint}</p>
       {!stamping && !done && (
-        <TextButton label="囁きを刻む" onClick={handleStamp} />
+        <TextButton label="声を刻む" variant="serif" onClick={handleStamp} />
       )}
       <StampEffect active={stamping} onComplete={handleEffectComplete} />
     </PageLayout>

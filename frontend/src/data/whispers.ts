@@ -3,12 +3,12 @@ import type { WhisperContent } from "../types";
 export const WHISPERS: Record<1 | 2, WhisperContent> = {
   1: {
     label: "第一の囁き",
-    text: "我、ここに灯を\n掲げり",
-    hint: "次の囁きは、模擬店の扉の向こうにある。",
+    text: "耳を澄ませ。\nこの街の風は、\nまだあの頃の声を\n運んでいる。",
+    hint: "次の声は、模擬店のどこかに眠っている。",
   },
   2: {
     label: "第二の囁き",
-    text: "知は、暗闇を\n照らす灯なり",
-    hint: "五高記念館へ。長い旅の終わりが、そこにある。",
+    text: "灯は、消えない。\n学んだ者の記憶が、\n石となり、壁となり、\n今もここに立っている。",
+    hint: "二つの声が揃った。あとは、扉の前へ。",
   },
 };

@@ -5,19 +5,27 @@ type StampEffectProps = {
   onComplete: () => void;
 };
 
+function vibrate() {
+  if ("vibrate" in navigator) {
+    navigator.vibrate(300);
+  }
+}
+
 export function StampEffect({ active, onComplete }: StampEffectProps) {
   const [showDone, setShowDone] = useState(false);
 
   useEffect(() => {
     if (!active) return;
 
+    vibrate();
+
     const doneTimer = setTimeout(() => {
       setShowDone(true);
-    }, 1200);
+    }, 1300);
 
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 2000);
+    }, 2300);
 
     return () => {
       clearTimeout(doneTimer);

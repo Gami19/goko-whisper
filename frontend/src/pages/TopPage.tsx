@@ -13,25 +13,29 @@ export function TopPage() {
       <h1 className="title-serif title-sm">五高の囁き</h1>
       <DividerLine />
       <p className="text-paper">
-        あなたは、五高の声を
+        耳を澄ませ。
         <br />
-        聞いたことがありますか。
+        <br />
+        百年の声が、まだここに
+        <br />
+        漂っている。
       </p>
       <DividerLine />
+      <p className="text-input-label">あなたの名は</p>
       <input
         type="text"
         className="nickname-input"
-        placeholder="お名前を入れてください"
         value={input}
         onChange={(e) => {
           setInput(e.target.value);
           setNickname(e.target.value);
         }}
         maxLength={20}
-        aria-label="お名前"
+        aria-label="あなたの名"
       />
       <TextButton
-        label="旅を始める"
+        label="声を聞きに行く"
+        variant="serif"
         disabled={!input.trim()}
         onClick={goToStamp1}
       />

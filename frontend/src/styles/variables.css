@@ -1,18 +1,22 @@
 :root {
   /* ベースカラー */
-  --color-bg: #0d0b08;
-  --color-bg-sub: #1a1814;
-  --color-border: #2e2a24;
+  --color-bg: #0e0b12;
+  --color-bg-sub: #1a1520;
+  --color-border: #2e2838;
 
   /* メインアクセント */
-  --color-gold: #d4a843;
+  --color-primary: #7b5ea7;
+  --color-glow: #b89fcc;
   --color-paper: #c8b89a;
-  --color-brass: #8b6914;
+  --color-porcelain: #eae4da;
 
   /* アクセント（限定使用） */
-  --color-crimson: #8b1a1a;
-  --color-emerald: #2d5a4e;
-  --color-warning: #c9a227;
+  --color-goal: #7a1f2e;
+  --color-stamp: #2a4a5e;
+  --color-warning: #b85c38;
+
+  /* 囁きアニメーション用 */
+  --color-whisper-start: #3d2f55;
 
   /* タイポグラフィ */
   --font-serif: "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro",
@@ -30,5 +34,5 @@
   /* アニメーション時間 */
   --transition-page: 0.4s;
   --animation-whisper: 2.5s;
-  --animation-stamp: 1.5s;
+  --animation-stamp: 1.8s;
 }

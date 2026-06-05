@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CodeDisplay } from "../components/CodeDisplay";
 import { CountdownTimer } from "../components/CountdownTimer";
+import { DividerLine } from "../components/DividerLine";
 import { MemorialSilhouette } from "../components/MemorialSilhouette";
 import { PageLayout } from "../components/PageLayout";
 import { useApp } from "../context/AppContext";
@@ -21,13 +22,20 @@ export function GoalPage() {
 
   return (
     <PageLayout variant="goal">
-      <p className="text-label">── 五高の声が届いた ──</p>
       <MemorialSilhouette />
+      <p className="goal-closing goal-closing-enter">
+        あなたは今、
+        <br />
+        百年前の声が聞こえた
+        <br />
+        場所に立っている。
+      </p>
+      <DividerLine variant="primary" />
       <p className="nickname-display goal-nickname-enter">{displayName}</p>
       <CodeDisplay code={token.code} />
       <CountdownTimer expiresAt={token.expiresAt} />
       <p className="text-hint goal-hint-enter">
-        この画面を提示してください
+        スタッフに提示してください
       </p>
     </PageLayout>
   );

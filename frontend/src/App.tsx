@@ -51,6 +51,7 @@ function ScreenRenderer() {
         return (
           <StampPage
             content={WHISPERS[1]}
+            variant="stamp1"
             onComplete={completeStamp1}
           />
         );
@@ -58,6 +59,7 @@ function ScreenRenderer() {
         return (
           <StampPage
             content={WHISPERS[2]}
+            variant="stamp2"
             onComplete={completeStamp2}
           />
         );
