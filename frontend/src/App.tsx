@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { AppProvider, useApp, type Screen } from "./context/AppContext";
+import { DevNav } from "./components/DevNav";
+import { AppProvider, useApp } from "./context/AppContext";
 import { WHISPERS } from "./data/whispers";
 import { GoalPage } from "./pages/GoalPage";
 import { StampPage } from "./pages/StampPage";
 import { TopPage } from "./pages/TopPage";
+import type { Screen } from "./types";
 
 type TransitionPhase = "idle" | "exit" | "enter";
 
@@ -49,6 +51,7 @@ function ScreenRenderer() {
         return (
           <StampPage
             content={WHISPERS[1]}
+            variant="stamp1"
             onComplete={completeStamp1}
           />
         );
@@ -56,6 +59,7 @@ function ScreenRenderer() {
         return (
           <StampPage
             content={WHISPERS[2]}
+            variant="stamp2"
             onComplete={completeStamp2}
           />
         );
@@ -70,7 +74,10 @@ function ScreenRenderer() {
 function App() {
   return (
     <AppProvider>
-      <ScreenRenderer />
+      <div className="app-shell">
+        <ScreenRenderer />
+        <DevNav />
+      </div>
     </AppProvider>
   );
 }

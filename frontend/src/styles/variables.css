@@ -1,0 +1,38 @@
+:root {
+  /* ベースカラー */
+  --color-bg: #0e0b12;
+  --color-bg-sub: #1a1520;
+  --color-border: #2e2838;
+
+  /* メインアクセント */
+  --color-primary: #7b5ea7;
+  --color-glow: #b89fcc;
+  --color-paper: #c8b89a;
+  --color-porcelain: #eae4da;
+
+  /* アクセント（限定使用） */
+  --color-goal: #7a1f2e;
+  --color-stamp: #2a4a5e;
+  --color-warning: #b85c38;
+
+  /* 囁きアニメーション用 */
+  --color-whisper-start: #3d2f55;
+
+  /* タイポグラフィ */
+  --font-serif: "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro",
+    serif;
+  --font-sans: "Yu Gothic", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Menlo", monospace;
+
+  /* レイアウト */
+  --max-width: 480px;
+  --spacing-lg: 3rem;
+  --spacing-md: 2rem;
+  --spacing-sm: 1rem;
+
+  /* アニメーション時間 */
+  --transition-page: 0.4s;
+  --animation-whisper: 2.5s;
+  --animation-stamp: 1.8s;
+}

@@ -1,0 +1,374 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  height: 100%;
+}
+
+.app-shell {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-sm);
+  text-align: center;
+  position: relative;
+}
+
+.page-layout--top {
+  justify-content: center;
+  gap: var(--spacing-md);
+  background-color: var(--color-bg);
+}
+
+.page-layout--stamp1 {
+  justify-content: flex-start;
+  padding-top: 12vh;
+  gap: var(--spacing-md);
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(ellipse at 30% 40%, rgba(123, 94, 167, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 60%, rgba(61, 47, 85, 0.08) 0%, transparent 50%);
+}
+
+.page-layout--stamp2 {
+  justify-content: flex-start;
+  padding-top: 12vh;
+  gap: var(--spacing-md);
+  background-color: #110d16;
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgba(184, 159, 204, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 60% 70%, rgba(123, 94, 167, 0.05) 0%, transparent 50%);
+}
+
+.page-layout--goal {
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background-color: #131018;
+  background-image:
+    radial-gradient(ellipse at 50% 20%, rgba(234, 228, 218, 0.04) 0%, transparent 60%);
+}
+
+/* タイポグラフィ */
+.title-serif {
+  font-family: var(--font-serif);
+  color: var(--color-primary);
+}
+
+.title-sm {
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+}
+
+.text-paper {
+  color: var(--color-paper);
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  line-height: 2;
+}
+
+.text-label {
+  font-size: 0.7rem;
+  color: var(--color-porcelain);
+  letter-spacing: 0.15em;
+}
+
+.text-label--glow {
+  color: var(--color-glow);
+}
+
+.text-hint {
+  font-size: 0.75rem;
+  color: var(--color-paper);
+  line-height: 1.9;
+}
+
+.text-input-label {
+  font-size: 0.75rem;
+  color: var(--color-paper);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+
+.nickname-display {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  letter-spacing: 0.1em;
+}
+
+.goal-closing {
+  font-family: var(--font-serif);
+  color: var(--color-paper);
+  font-size: 0.85rem;
+  line-height: 2.2;
+}
+
+/* 区切り線 */
+.divider-line {
+  width: 60%;
+  max-width: 240px;
+  height: 1px;
+  background-color: var(--color-porcelain);
+  border: none;
+  margin: var(--spacing-sm) auto;
+}
+
+.divider-line--dashed {
+  background: none;
+  border-top: 1px dashed var(--color-border);
+  height: 0;
+}
+
+.divider-line--primary {
+  background-color: var(--color-primary);
+}
+
+/* 入力欄 */
+.nickname-input {
+  width: 70%;
+  max-width: 280px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  text-align: center;
+  padding: 0.5rem 0;
+  outline: none;
+}
+
+.nickname-input::placeholder {
+  color: var(--color-paper);
+  opacity: 0.3;
+  font-size: 0.85rem;
+}
+
+/* テキストボタン */
+.text-button {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.text-button--serif {
+  font-family: var(--font-serif);
+}
+
+.text-button:hover:not(:disabled) {
+  color: var(--color-glow);
+}
+
+.text-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* 囁きテキスト（縦書き） */
+.whisper-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  margin: var(--spacing-sm) 0;
+}
+
+.whisper-text {
+  font-family: var(--font-serif);
+  color: var(--color-primary);
+  font-size: 1.1rem;
+  line-height: 2;
+  letter-spacing: 0.3em;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  white-space: pre-line;
+}
+
+.whisper-text--glow {
+  color: var(--color-glow);
+}
+
+/* スタンプ完了メッセージ */
+.stamp-done-message {
+  font-family: var(--font-serif);
+  color: var(--color-porcelain);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  opacity: 0;
+  animation: fade-in 0.5s ease forwards;
+}
+
+/* コード表示 */
+.code-box {
+  border: 1px solid var(--color-porcelain);
+  padding: 1rem 2rem;
+  margin: var(--spacing-sm) 0;
+}
+
+.code-display {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  color: var(--color-porcelain);
+  letter-spacing: 0.5em;
+}
+
+/* カウントダウン */
+.countdown-timer {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--color-porcelain);
+  letter-spacing: 0.1em;
+}
+
+.countdown-timer--warning {
+  color: var(--color-warning);
+}
+
+.countdown-timer--critical {
+  color: var(--color-goal);
+  animation: pulse-slow 2s ease-in-out infinite;
+}
+
+/* 記念館シルエット */
+.memorial-silhouette {
+  width: 85%;
+  max-width: 300px;
+  opacity: 0;
+  margin-bottom: var(--spacing-sm);
+}
+
+.memorial-silhouette--visible {
+  animation: silhouette-rise 3s ease forwards;
+}
+
+.memorial-silhouette svg {
+  width: 100%;
+  height: auto;
+}
+
+.memorial-silhouette path,
+.memorial-silhouette line,
+.memorial-silhouette rect,
+.memorial-silhouette ellipse {
+  stroke: var(--color-porcelain);
+  stroke-width: 0.8;
+  fill: none;
+}
+
+/* スタンプエフェクト */
+.stamp-effect-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.stamp-effect-light {
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--color-primary) 0%,
+    transparent 70%
+  );
+  animation: stamp-light var(--animation-stamp) ease-out forwards;
+}
+
+/* ゴール要素のフェードイン */
+.goal-closing-enter {
+  opacity: 0;
+  animation: fade-in 0.8s ease 1.5s forwards;
+}
+
+.goal-nickname-enter {
+  opacity: 0;
+  transform: translateY(-12px);
+  animation: goal-nickname-in 0.8s ease 2.5s forwards;
+}
+
+.goal-code-enter {
+  opacity: 0;
+  animation: fade-in 0.5s ease 3s forwards;
+}
+
+.goal-timer-enter {
+  opacity: 0;
+  animation: fade-in 0.5s ease 3.5s forwards;
+}
+
+.goal-hint-enter {
+  opacity: 0;
+  animation: fade-in 0.5s ease 4s forwards;
+}
+
+/* DevNav */
+.dev-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--color-bg-sub);
+  border-top: 1px solid var(--color-border);
+  z-index: 200;
+}
+
+.dev-nav__btn {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-paper);
+  font-size: 0.65rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+
+.dev-nav__btn--active {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
