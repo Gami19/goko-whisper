@@ -21,18 +21,24 @@ export function TopPage() {
         漂っている。
       </p>
       <DividerLine />
-      <p className="text-input-label">あなたの名は</p>
-      <input
-        type="text"
-        className="nickname-input"
-        value={input}
-        onChange={(e) => {
-          setInput(e.target.value);
-          setNickname(e.target.value);
-        }}
-        maxLength={20}
-        aria-label="あなたの名"
-      />
+      <div className="nickname-field">
+        <label className="text-input-label" htmlFor="nickname">
+          あなたの名は
+        </label>
+        <input
+          id="nickname"
+          type="text"
+          className="nickname-input"
+          placeholder="お名前を入力"
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+            setNickname(e.target.value);
+          }}
+          maxLength={20}
+          autoComplete="nickname"
+        />
+      </div>
       <TextButton
         label="声を聞きに行く"
         variant="serif"

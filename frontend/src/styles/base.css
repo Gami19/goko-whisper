@@ -16,7 +16,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-paper);
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 1rem;
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
 }
@@ -92,12 +92,12 @@ body {
 .text-paper {
   color: var(--color-paper);
   font-family: var(--font-serif);
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   line-height: 2;
 }
 
 .text-label {
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   color: var(--color-porcelain);
   letter-spacing: 0.15em;
 }
@@ -107,16 +107,24 @@ body {
 }
 
 .text-hint {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--color-paper);
   line-height: 1.9;
 }
 
+.nickname-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
 .text-input-label {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: var(--color-paper);
   letter-spacing: 0.1em;
-  margin-bottom: 0.25rem;
+  cursor: pointer;
 }
 
 .nickname-display {
@@ -129,7 +137,7 @@ body {
 .goal-closing {
   font-family: var(--font-serif);
   color: var(--color-paper);
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   line-height: 2.2;
 }
 
@@ -157,21 +165,31 @@ body {
 .nickname-input {
   width: 70%;
   max-width: 280px;
+  min-height: 2.5rem;
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--color-primary);
   color: var(--color-primary);
   font-family: var(--font-serif);
-  font-size: 1rem;
+  font-size: 1.05rem;
   text-align: center;
   padding: 0.5rem 0;
   outline: none;
 }
 
 .nickname-input::placeholder {
-  color: var(--color-paper);
-  opacity: 0.3;
-  font-size: 0.85rem;
+  color: var(--color-glow);
+  opacity: 0.55;
+  font-size: 0.95rem;
+}
+
+.nickname-input:focus {
+  border-bottom-width: 2px;
+  padding-bottom: calc(0.5rem - 1px);
+}
+
+.nickname-input:focus::placeholder {
+  opacity: 0.35;
 }
 
 /* テキストボタン */
@@ -230,7 +248,7 @@ body {
 .stamp-done-message {
   font-family: var(--font-serif);
   color: var(--color-porcelain);
-  font-size: 0.9rem;
+  font-size: 1rem;
   letter-spacing: 0.2em;
   opacity: 0;
   animation: fade-in 0.5s ease forwards;
