@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { AppProvider, useApp, type Screen } from "./context/AppContext";
+import { DevNav } from "./components/DevNav";
+import { AppProvider, useApp } from "./context/AppContext";
 import { WHISPERS } from "./data/whispers";
 import { GoalPage } from "./pages/GoalPage";
 import { StampPage } from "./pages/StampPage";
 import { TopPage } from "./pages/TopPage";
+import type { Screen } from "./types";
 
 type TransitionPhase = "idle" | "exit" | "enter";
 
@@ -70,7 +72,10 @@ function ScreenRenderer() {
 function App() {
   return (
     <AppProvider>
-      <ScreenRenderer />
+      <div className="app-shell">
+        <ScreenRenderer />
+        <DevNav />
+      </div>
     </AppProvider>
   );
 }
