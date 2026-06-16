@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { DevNav } from "./components/DevNav";
+import { BottomNav } from "./components/BottomNav";
 import { AppProvider, useApp } from "./context/AppContext";
 import { WHISPERS } from "./data/whispers";
+import { FoodPage } from "./pages/FoodPage";
 import { GoalPage } from "./pages/GoalPage";
+import { PresentPage } from "./pages/PresentPage";
 import { StampPage } from "./pages/StampPage";
 import { TopPage } from "./pages/TopPage";
 import type { Screen } from "./types";
@@ -71,12 +73,27 @@ function ScreenRenderer() {
   return <div className={transitionClass}>{renderScreen()}</div>;
 }
 
+function TabContent() {
+  const { activeTab } = useApp();
+
+  switch (activeTab) {
+    case "home":
+      return <ScreenRenderer />;
+    case "food":
+      return <FoodPage />;
+    case "present":
+      return <PresentPage />;
+  }
+}
+
 function App() {
   return (
     <AppProvider>
       <div className="app-shell">
-        <ScreenRenderer />
-        <DevNav />
+        <div className="tab-content">
+          <TabContent />
+        </div>
+        <BottomNav />
       </div>
     </AppProvider>
   );

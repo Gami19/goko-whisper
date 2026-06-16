@@ -5,6 +5,7 @@ import type { PageVariant } from "../components/PageLayout";
 import { StampEffect } from "../components/StampEffect";
 import { TextButton } from "../components/TextButton";
 import { WhisperReveal } from "../components/WhisperReveal";
+import { useApp } from "../context/AppContext";
 import type { WhisperContent } from "../types";
 
 type StampPageProps = {
@@ -14,6 +15,7 @@ type StampPageProps = {
 };
 
 export function StampPage({ content, variant, onComplete }: StampPageProps) {
+  const { autoFlowActive } = useApp();
   const [stamping, setStamping] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -35,7 +37,7 @@ export function StampPage({ content, variant, onComplete }: StampPageProps) {
       <WhisperReveal text={content.text} tone={whisperTone} />
       <DividerLine variant="dashed" />
       <p className="text-hint">{content.hint}</p>
-      {!stamping && !done && (
+      {!autoFlowActive && !stamping && !done && (
         <TextButton label="声を刻む" variant="serif" onClick={handleStamp} />
       )}
       <StampEffect active={stamping} onComplete={handleEffectComplete} />

@@ -27,6 +27,7 @@
 
   /* レイアウト */
   --max-width: 480px;
+  --bottom-nav-height: 4.25rem;
   --spacing-lg: 3rem;
   --spacing-md: 2rem;
   --spacing-sm: 1rem;
