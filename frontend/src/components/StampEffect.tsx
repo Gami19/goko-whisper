@@ -11,6 +11,9 @@ function vibrate() {
   }
 }
 
+const STAMP_DONE_DELAY_MS = 5000;
+const STAMP_COMPLETE_AFTER_DONE_MS = 2300;
+
 export function StampEffect({ active, onComplete }: StampEffectProps) {
   const [showDone, setShowDone] = useState(false);
 
@@ -21,11 +24,11 @@ export function StampEffect({ active, onComplete }: StampEffectProps) {
 
     const doneTimer = setTimeout(() => {
       setShowDone(true);
-    }, 1300);
+    }, STAMP_DONE_DELAY_MS);
 
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 2300);
+    }, STAMP_DONE_DELAY_MS + STAMP_COMPLETE_AFTER_DONE_MS);
 
     return () => {
       clearTimeout(doneTimer);
