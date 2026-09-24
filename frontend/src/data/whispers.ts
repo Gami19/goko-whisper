@@ -1,6 +1,9 @@
-import type { WhisperContent } from "../types";
+import type { WhisperContent, WhisperId } from "../types";
 
-export const WHISPERS: Record<1 | 2, WhisperContent> = {
+export const GUIDE_ONLY_STAMP2 =
+  "最初の声は、まだ聞こえていない。チラシの QR を読んでください。";
+
+export const WHISPERS: Record<WhisperId, WhisperContent> = {
   1: {
     label: "第一の囁き",
     text: "耳を澄ませ。\nこの街の風は、\nまだあの頃の声を\n運んでいる。",

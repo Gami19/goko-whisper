@@ -1,19 +1,45 @@
 import { useEffect, useRef, useState } from "react";
 import { BottomNav } from "./components/BottomNav";
+import { PageLayout } from "./components/PageLayout";
 import { AppProvider, useApp } from "./context/AppContext";
-import { WHISPERS } from "./data/whispers";
+import { AdminPage } from "./pages/AdminPage";
 import { FoodPage } from "./pages/FoodPage";
 import { GoalPage } from "./pages/GoalPage";
 import { PresentPage } from "./pages/PresentPage";
+import { RedeemedPage } from "./pages/RedeemedPage";
+import { SoldOutPage } from "./pages/SoldOutPage";
 import { StampPage } from "./pages/StampPage";
 import { TopPage } from "./pages/TopPage";
-import type { Screen } from "./types";
+import type { Screen, WhisperId } from "./types";
 
 type TransitionPhase = "idle" | "exit" | "enter";
 
+function whichFor(
+  next: Screen,
+  pendingWhisper: WhisperId | null,
+  stamp1Done: boolean,
+  stamp2Done: boolean,
+): WhisperId | null {
+  if (next === "whisper") return pendingWhisper;
+  if (next === "guide") {
+    if (stamp1Done) return 1;
+    if (stamp2Done) return 2;
+  }
+  return null;
+}
+
 function ScreenRenderer() {
-  const { screen, completeStamp1, completeStamp2 } = useApp();
+  const {
+    screen,
+    pendingWhisper,
+    stamp1Done,
+    stamp2Done,
+    clearPendingWhisper,
+  } = useApp();
   const [displayedScreen, setDisplayedScreen] = useState<Screen>(screen);
+  const [displayedWhich, setDisplayedWhich] = useState<WhisperId | null>(() =>
+    whichFor(screen, pendingWhisper, stamp1Done, stamp2Done),
+  );
   const [phase, setPhase] = useState<TransitionPhase>("idle");
   const prevScreen = useRef<Screen>(screen);
 
@@ -24,6 +50,9 @@ function ScreenRenderer() {
 
     const exitTimer = setTimeout(() => {
       setDisplayedScreen(screen);
+      setDisplayedWhich(
+        whichFor(screen, pendingWhisper, stamp1Done, stamp2Done),
+      );
       setPhase("enter");
       prevScreen.current = screen;
     }, 400);
@@ -36,7 +65,7 @@ function ScreenRenderer() {
       clearTimeout(exitTimer);
       clearTimeout(enterTimer);
     };
-  }, [screen]);
+  }, [screen, pendingWhisper, stamp1Done, stamp2Done]);
 
   const transitionClass =
     phase === "exit"
@@ -48,25 +77,29 @@ function ScreenRenderer() {
   const renderScreen = () => {
     switch (displayedScreen) {
       case "top":
-        return <TopPage />;
-      case "stamp1":
-        return (
+        return <TopPage mode="top" />;
+      case "askName":
+        return <TopPage mode="askName" />;
+      case "whisper":
+        return displayedWhich ? (
           <StampPage
-            content={WHISPERS[1]}
-            variant="stamp1"
-            onComplete={completeStamp1}
+            mode="whisper"
+            which={displayedWhich}
+            onComplete={clearPendingWhisper}
           />
-        );
-      case "stamp2":
-        return (
-          <StampPage
-            content={WHISPERS[2]}
-            variant="stamp2"
-            onComplete={completeStamp2}
-          />
-        );
+        ) : null;
+      case "guide":
+        return displayedWhich ? (
+          <StampPage mode="guide" which={displayedWhich} />
+        ) : null;
       case "goal":
         return <GoalPage />;
+      case "redeemed":
+        return <RedeemedPage />;
+      case "soldOut":
+        return <SoldOutPage />;
+      case "admin":
+        return <AdminPage />;
     }
   };
 
@@ -86,15 +119,33 @@ function TabContent() {
   }
 }
 
+function AppShell() {
+  const { storageBlocked } = useApp();
+
+  if (storageBlocked) {
+    return (
+      <PageLayout variant="top">
+        <p className="text-paper">
+          このブラウザでは記録を残せません。通常のタブで開いてください。
+        </p>
+      </PageLayout>
+    );
+  }
+
+  return (
+    <div className="app-shell">
+      <div className="tab-content">
+        <TabContent />
+      </div>
+      <BottomNav />
+    </div>
+  );
+}
+
 function App() {
   return (
     <AppProvider>
-      <div className="app-shell">
-        <div className="tab-content">
-          <TabContent />
-        </div>
-        <BottomNav />
-      </div>
+      <AppShell />
     </AppProvider>
   );
 }
