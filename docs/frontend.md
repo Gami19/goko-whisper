@@ -1,6 +1,6 @@
----
+# フロントエンド
 
-## フロントエンドの役割
+## 役割
 
 スタンプラリー体験をスマートフォン向けの **シングルページアプリ（SPA）** として提供する。
 
@@ -11,7 +11,7 @@
 ④  食品・プレゼントタブ: 模擬店・参加特典の紹介（画像は準備中）
 ```
 
-現状は **React の state のみ** で画面・進行を管理している。`localStorage` への永続化やバックエンド API 呼び出しは未実装（`data-flow.md` のゴール時 `POST /api/token/issue` は今後の接続ポイント）。
+現状は **React の state のみ** で画面・進行を管理している。`localStorage` への永続化やバックエンド API 呼び出しは未実装。全体の優先度は `implementation.md`、ゴール API は `backend.md`。
 
 ---
 
@@ -28,7 +28,7 @@
 
 ### なぜ React Router を使わないか
 
-タブ3つ＋ホーム内4画面でも、QR コードごとに別 URL を割り当てる予定がなければ、**Context + `activeTab` / `screen` state** で十分軽量。ページ遷移アニメーションも `App.tsx` 内で一元管理できる。
+スタンプ用 QR は別ルートを増やさず、同一 URL のクエリ（`?stamp=spot1` など）で渡す。タブとホーム内画面は **Context の `activeTab` / `screen`** で切り替え、遷移アニメーションも `App.tsx` に置く。
 
 ---
 
@@ -110,7 +110,7 @@ top ──(ニックネーム入力 + 「声を聞きに行く」)──► stam
 
 - `startHomeAutoFlow()` が `stamp1` → `stamp2` → `goal` をスケジュール
 - **ホームタブ表示中のみ** タイマーが動作する
-- 本番で QR 連動を入れる際は、この自動遷移を QR 成功時の遷移に差し替える想定
+- 本番ではこの自動遷移を使わない。スタンプは標準カメラで開く URL クエリで付与する（`implementation.md`）
 
 開発用の画面ジャンプナビは廃止し、`BottomNav` のみでタブを切り替える。
 
@@ -220,7 +220,7 @@ const [token] = useState(() => ({
 }));
 ```
 
-バックエンド接続時は、この生成処理を `POST /api/token/issue` のレスポンスに差し替える想定。
+バックエンド接続時は、この生成処理を `POST /api/token/issue` のレスポンスに差し替える。契約は `backend.md`。
 
 ---
 
@@ -279,29 +279,34 @@ npm run preview  # ビルド成果物のプレビュー
 
 ---
 
-## 今後の作業
+## 実装予定（フロント）
 
-### 食品・プレゼントタブ
+優先度の全体は `implementation.md`。ここではクライアント側の変更だけを書く。
 
-- 模擬店メニュー・参加特典の画像を `public/images/` 等に配置
-- 画像表示遅延対策は `docs/画像対策.md` の PWA キャッシュ戦略を参照
+永続化する形はこれだけにする。同期は `AppContext` の中で行う。別フックに分けると、起動時の復元と URL マージの順序が割れやすい。
 
-### バックエンドとの接続（未実装）
+```ts
+interface StampRallyState {
+  nickname: string;
+  stamp1Done: boolean;
+  stamp2Done: boolean;
+  redeemed: boolean;
+  rewardCode?: string;
+  issuedAt?: number;
+}
+```
 
-`data-flow.md` の想定との差分:
+起動順序:
 
-| 項目 | 現状 | 想定 |
-|------|------|------|
-| スタンプ記録 | React state のみ（リロードで消失） | `localStorage` に保存 |
-| ゴールトークン | フロントでランダム生成 | `POST /api/token/issue` で発行 |
-| 達成者カウント | なし | バックエンドのインメモリカウント |
-| QR 読み取り | 未実装（自動進行で代替） | カメラ起動 → スタンプ画面へ遷移 |
+1. `localStorage` を読む。
+2. クエリの `stamp=spot1|spot2` を、トークンが一致するときだけマージして保存する。
+3. `history.replaceState` でクエリを落とす。今の `AppContext` は画面が変わるたびに `history.pushState(..., window.location.pathname)` しており、クエリを残すと戻る操作と競合する。クエリは一度だけ適用する入場券にする。
+4. 画面を決める。両方のスタンプがあり未引換ならゴール。①だけなら模擬店への案内。引換済みなら引換済み画面。囁きの演出は、そのスタンプを初めて付けたときだけ再生する。
 
-接続時の変更候補:
+`reset()`（戻る操作で旅を中断）は、このキーも消す。
 
-1. `GoalPage` — `fetch` でトークン取得、`nickname` を POST body に含める
-2. `AppContext` — マウント時に `localStorage` から `stamp1Done` / `stamp2Done` を復元
-3. `startHomeAutoFlow` — QR 成功時の遷移ロジックに差し替え
-4. 環境変数 — `VITE_API_BASE_URL` などで API ベース URL を切り替え
+ゴール画面は、未発行なら `POST /api/token/issue` を呼び、返ったコードを `rewardCode` に保存して再表示する。スタッフ確認は同じ画面に置き、PIN とともに `POST /api/token/verify` を呼ぶ。成功後に引換済み画面へ切り替える。API の形は `backend.md`。
+
+食品・プレゼントの画像とイラストマップ、Service Worker の事前キャッシュは `implementation.md` の「オフラインと画像」。
 
 ---
