@@ -34,7 +34,7 @@
 3. イラストのキャンパスマップ（ダミー SVG で操作を先に固める）
 4. `vite-plugin-pwa`、食品タブ、特典タブ
 
-段階の順と、Phase 1–2 で固定した画面・API の解釈は `frontend.md` と `backend.md` に従う。
+段階の順は `phase.md`。画面は `frontend.md`、ゴール API は `backend.md`。
 
 ---
 
