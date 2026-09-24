@@ -5,7 +5,7 @@ import { TextButton } from "../components/TextButton";
 import { useApp } from "../context/AppContext";
 
 export function TopPage() {
-  const { nickname, setNickname, goToStamp1 } = useApp();
+  const { nickname, setNickname, startHomeAutoFlow } = useApp();
   const [input, setInput] = useState(nickname);
 
   return (
@@ -43,7 +43,7 @@ export function TopPage() {
         label="声を聞きに行く"
         variant="serif"
         disabled={!input.trim()}
-        onClick={goToStamp1}
+        onClick={startHomeAutoFlow}
       />
     </PageLayout>
   );
