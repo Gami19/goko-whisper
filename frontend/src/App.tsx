@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { BottomNav } from "./components/BottomNav";
 import { PageLayout } from "./components/PageLayout";
 import { AppProvider, useApp } from "./context/AppContext";
+import { AdminPage } from "./pages/AdminPage";
 import { FoodPage } from "./pages/FoodPage";
 import { GoalPage } from "./pages/GoalPage";
 import { PresentPage } from "./pages/PresentPage";
 import { RedeemedPage } from "./pages/RedeemedPage";
+import { SoldOutPage } from "./pages/SoldOutPage";
 import { StampPage } from "./pages/StampPage";
 import { TopPage } from "./pages/TopPage";
 import type { Screen, WhisperId } from "./types";
@@ -94,6 +96,10 @@ function ScreenRenderer() {
         return <GoalPage />;
       case "redeemed":
         return <RedeemedPage />;
+      case "soldOut":
+        return <SoldOutPage />;
+      case "admin":
+        return <AdminPage />;
     }
   };
 

@@ -51,9 +51,7 @@ export function CountdownTimer({ expiresAt, delay = 3500 }: CountdownTimerProps)
     .filter(Boolean)
     .join(" ");
 
-  return (
-    <p className={className}>
-      {state === "expired" ? "期限切れ" : formatTime(remaining)}
-    </p>
-  );
+  if (state === "expired") return null;
+
+  return <p className={className}>{formatTime(remaining)}</p>;
 }

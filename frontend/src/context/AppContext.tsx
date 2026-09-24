@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -28,8 +29,14 @@ type AppContextValue = {
   stamp2Done: boolean;
   pendingWhisper: WhisperId | null;
   nicknameLocked: boolean;
+  clientId: string;
+  rewardCode?: string;
+  issuedAt?: number;
   setActiveTab: (tab: Tab) => void;
   saveNickname: (name: string) => void;
+  saveIssued: (code: string, issuedAt: number) => void;
+  markRedeemed: () => void;
+  markSoldOut: () => void;
   clearPendingWhisper: () => void;
 };
 
@@ -133,13 +140,21 @@ function stripStampQuery() {
 function deriveScreen(
   rally: StampRallyState,
   pendingWhisper: WhisperId | null,
+  isAdmin: boolean,
+  soldOut: boolean,
 ): Screen {
+  if (isAdmin) return "admin";
   if (pendingWhisper) return "whisper";
   if (!rally.stamp1Done && !rally.stamp2Done) return "top";
   if (rally.stamp1Done !== rally.stamp2Done) return "guide";
   if (!rally.nickname.trim()) return "askName";
   if (rally.redeemed) return "redeemed";
+  if (!rally.rewardCode && soldOut) return "soldOut";
   return "goal";
+}
+
+function persistRally(next: StampRallyState) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
 }
 
 // StrictMode は Provider を付け直す。付け直しのたびにクエリを読むと、
@@ -178,12 +193,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [pendingWhisper, setPendingWhisper] = useState<WhisperId | null>(
     initial.pendingWhisper,
   );
+  const [soldOut, setSoldOut] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(
+    () => window.location.hash === "#admin",
+  );
+
+  useEffect(() => {
+    const sync = () => setIsAdmin(window.location.hash === "#admin");
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
 
   const clearPendingWhisper = useCallback(() => {
     setPendingWhisper(null);
   }, []);
 
-  const screen = deriveScreen(rally, pendingWhisper);
+  const screen = deriveScreen(rally, pendingWhisper, isAdmin, soldOut);
 
   const saveNickname = useCallback(
     (name: string) => {
@@ -192,7 +217,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       const next = { ...rally, nickname };
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        persistRally(next);
       } catch {
         setStorageBlocked(true);
         return;
@@ -201,6 +226,37 @@ export function AppProvider({ children }: { children: ReactNode }) {
     },
     [rally],
   );
+
+  const saveIssued = useCallback(
+    (code: string, issuedAt: number) => {
+      if (rally.rewardCode) return;
+      const next = { ...rally, rewardCode: code, issuedAt };
+      try {
+        persistRally(next);
+      } catch {
+        setStorageBlocked(true);
+        return;
+      }
+      setRally(next);
+    },
+    [rally],
+  );
+
+  const markRedeemed = useCallback(() => {
+    if (rally.redeemed) return;
+    const next = { ...rally, redeemed: true };
+    try {
+      persistRally(next);
+    } catch {
+      setStorageBlocked(true);
+      return;
+    }
+    setRally(next);
+  }, [rally]);
+
+  const markSoldOut = useCallback(() => {
+    setSoldOut(true);
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -212,8 +268,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
       stamp2Done: rally.stamp2Done,
       pendingWhisper,
       nicknameLocked: Boolean(rally.rewardCode),
+      clientId: rally.clientId,
+      rewardCode: rally.rewardCode,
+      issuedAt: rally.issuedAt,
       setActiveTab,
       saveNickname,
+      saveIssued,
+      markRedeemed,
+      markSoldOut,
       clearPendingWhisper,
     }),
     [
@@ -224,8 +286,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       rally.stamp1Done,
       rally.stamp2Done,
       rally.rewardCode,
+      rally.issuedAt,
+      rally.clientId,
       pendingWhisper,
       saveNickname,
+      saveIssued,
+      markRedeemed,
+      markSoldOut,
       clearPendingWhisper,
     ],
   );

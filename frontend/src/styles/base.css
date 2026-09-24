@@ -370,6 +370,11 @@ body {
   animation: fade-in 0.5s ease 4s forwards;
 }
 
+.goal-slider {
+  width: min(100%, 280px);
+  accent-color: var(--color-primary);
+}
+
 /* BottomNav */
 .bottom-nav {
   position: fixed;

@@ -6,7 +6,9 @@ export type Screen =
   | "guide"
   | "askName"
   | "goal"
-  | "redeemed";
+  | "redeemed"
+  | "soldOut"
+  | "admin";
 
 export type WhisperId = 1 | 2;
 
