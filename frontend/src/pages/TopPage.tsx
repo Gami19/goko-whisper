@@ -4,22 +4,40 @@ import { PageLayout } from "../components/PageLayout";
 import { TextButton } from "../components/TextButton";
 import { useApp } from "../context/AppContext";
 
-export function TopPage() {
-  const { nickname, setNickname, startHomeAutoFlow } = useApp();
+type TopPageProps = {
+  mode: "top" | "askName";
+};
+
+export function TopPage({ mode }: TopPageProps) {
+  const { nickname, nicknameLocked, saveNickname } = useApp();
   const [input, setInput] = useState(nickname);
+  const trimmed = input.trim();
 
   return (
     <PageLayout variant="top">
       <h1 className="title-serif title-sm">五高の囁き</h1>
       <DividerLine />
-      <p className="text-paper">
-        耳を澄ませ。
-        <br />
-        <br />
-        百年の声が、まだここに
-        <br />
-        漂っている。
-      </p>
+      {mode === "askName" ? (
+        <p className="text-paper">
+          二つの声が揃った。
+          <br />
+          名を残してから、記念館へ。
+        </p>
+      ) : (
+        <p className="text-paper">
+          耳を澄ませ。
+          <br />
+          <br />
+          百年の声が、まだここに
+          <br />
+          漂っている。
+          <br />
+          <br />
+          チラシ、または模擬店の QR を読むと、
+          <br />
+          囁きが残ります。
+        </p>
+      )}
       <DividerLine />
       <div className="nickname-field">
         <label className="text-input-label" htmlFor="nickname">
@@ -31,20 +49,20 @@ export function TopPage() {
           className="nickname-input"
           placeholder="お名前を入力"
           value={input}
-          onChange={(e) => {
-            setInput(e.target.value);
-            setNickname(e.target.value);
-          }}
+          onChange={(e) => setInput(e.target.value)}
           maxLength={20}
           autoComplete="nickname"
+          disabled={nicknameLocked}
         />
       </div>
-      <TextButton
-        label="声を聞きに行く"
-        variant="serif"
-        disabled={!input.trim()}
-        onClick={startHomeAutoFlow}
-      />
+      {!nicknameLocked && (
+        <TextButton
+          label="名前を残す"
+          variant="serif"
+          disabled={!trimmed || trimmed.length > 20}
+          onClick={() => saveNickname(input)}
+        />
+      )}
     </PageLayout>
   );
 }
