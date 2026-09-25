@@ -126,7 +126,10 @@ export function GoalPage() {
 
       {issuing && <p className="text-hint">発行しています</p>}
       {issueError && (
-        <TextButton label="再試行" variant="serif" onClick={retryIssue} />
+        <>
+          <p className="text-hint">通信が必要です</p>
+          <TextButton label="再試行" variant="serif" onClick={retryIssue} />
+        </>
       )}
 
       {showCode && rewardCode && (
