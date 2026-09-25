@@ -34,12 +34,12 @@
   }
 }
 
-/* 囁き出現（暗紫 → 菖蒲） */
+/* 囁き出現（真鍮 → 赤レンガ） */
 .whisper-reveal {
   opacity: 0;
   filter: blur(6px);
   letter-spacing: 0.5em;
-  color: var(--color-whisper-start);
+  color: var(--color-brass);
   animation: whisper-appear var(--animation-whisper) ease 0.5s forwards;
 }
 
@@ -48,18 +48,18 @@
     opacity: 0;
     filter: blur(6px);
     letter-spacing: 0.5em;
-    color: var(--color-whisper-start);
+    color: var(--color-brass);
   }
   30% {
-    opacity: 0.3;
+    opacity: 0.35;
     filter: blur(4px);
-    color: #5a4578;
+    color: var(--color-brass);
   }
   100% {
     opacity: 1;
     filter: blur(0);
     letter-spacing: 0.1em;
-    color: var(--color-primary);
+    color: var(--color-brick);
   }
 }
 
@@ -72,62 +72,46 @@
     opacity: 0;
     filter: blur(6px);
     letter-spacing: 0.5em;
-    color: var(--color-whisper-start);
+    color: var(--color-brass);
   }
   30% {
-    opacity: 0.3;
+    opacity: 0.35;
     filter: blur(4px);
-    color: #6a5588;
+    color: var(--color-brass-light);
   }
   100% {
     opacity: 1;
     filter: blur(0);
     letter-spacing: 0.1em;
-    color: var(--color-glow);
+    color: var(--color-ink);
   }
 }
 
-/* スタンプ光エフェクト（菖蒲 → 錆青） */
+/* スタンプ光（赤レンガ → 藍） */
 @keyframes stamp-light {
   0% {
     width: 0;
     height: 0;
     opacity: 1;
-    background: radial-gradient(
-      circle,
-      var(--color-primary) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle, var(--color-brick) 0%, transparent 70%);
   }
   44% {
     width: 200vmax;
     height: 200vmax;
-    opacity: 0.85;
-    background: radial-gradient(
-      circle,
-      var(--color-primary) 0%,
-      transparent 60%
-    );
+    opacity: 0.8;
+    background: radial-gradient(circle, var(--color-brick) 0%, transparent 60%);
   }
   72% {
     width: 120vmax;
     height: 120vmax;
-    opacity: 0.6;
-    background: radial-gradient(
-      circle,
-      var(--color-stamp) 0%,
-      transparent 55%
-    );
+    opacity: 0.55;
+    background: radial-gradient(circle, var(--color-indigo) 0%, transparent 55%);
   }
   100% {
     width: 0;
     height: 0;
     opacity: 0;
-    background: radial-gradient(
-      circle,
-      var(--color-stamp) 0%,
-      transparent 50%
-    );
+    background: radial-gradient(circle, var(--color-indigo) 0%, transparent 50%);
   }
 }
 

@@ -19,7 +19,7 @@ export function StampPage(props: StampPageProps) {
 
   return (
     <PageLayout variant={variant}>
-      <p className="text-label">── {content.label} ──</p>
+      <p className="text-label">❖ {content.label}</p>
       {props.mode === "whisper" ? (
         <WhisperReveal text={content.text} tone={whisperTone} />
       ) : (

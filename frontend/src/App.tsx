@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { BottomNav } from "./components/BottomNav";
+import { BottomSheet } from "./components/BottomSheet";
+import { MapViewer } from "./components/MapViewer";
 import { PageLayout } from "./components/PageLayout";
 import { AppProvider, useApp } from "./context/AppContext";
+import type { PinId } from "./data/map";
 import { AdminPage } from "./pages/AdminPage";
 import { FoodPage } from "./pages/FoodPage";
 import { GoalPage } from "./pages/GoalPage";
@@ -35,6 +38,7 @@ function ScreenRenderer() {
     stamp1Done,
     stamp2Done,
     clearPendingWhisper,
+    openPin,
   } = useApp();
   const [displayedScreen, setDisplayedScreen] = useState<Screen>(screen);
   const [displayedWhich, setDisplayedWhich] = useState<WhisperId | null>(() =>
@@ -85,7 +89,11 @@ function ScreenRenderer() {
           <StampPage
             mode="whisper"
             which={displayedWhich}
-            onComplete={clearPendingWhisper}
+            onComplete={() => {
+              const pin: PinId = displayedWhich === 2 ? "spot2" : "spot1";
+              clearPendingWhisper();
+              openPin(pin);
+            }}
           />
         ) : null;
       case "guide":
@@ -106,16 +114,68 @@ function ScreenRenderer() {
   return <div className={transitionClass}>{renderScreen()}</div>;
 }
 
+function HomeStage() {
+  const {
+    screen,
+    stamp1Done,
+    stamp2Done,
+    selectedPin,
+    sheetLevel,
+    focusId,
+    focusToken,
+    openPin,
+    setSheetLevel,
+  } = useApp();
+
+  if (screen === "admin") {
+    return (
+      <div className="tab-scroll">
+        <AdminPage />
+      </div>
+    );
+  }
+
+  const reached: Record<PinId, boolean> = {
+    spot1: stamp1Done,
+    spot2: stamp2Done,
+    goko: stamp1Done && stamp2Done,
+  };
+
+  return (
+    <div className="home-map">
+      <MapViewer
+        selectedId={selectedPin}
+        focusId={focusId}
+        focusToken={focusToken}
+        reached={reached}
+        sheetLevel={sheetLevel}
+        onSelect={openPin}
+      />
+      <BottomSheet level={sheetLevel} onLevel={setSheetLevel}>
+        <ScreenRenderer />
+      </BottomSheet>
+    </div>
+  );
+}
+
 function TabContent() {
   const { activeTab } = useApp();
 
   switch (activeTab) {
     case "home":
-      return <ScreenRenderer />;
+      return <HomeStage />;
     case "food":
-      return <FoodPage />;
+      return (
+        <div className="tab-scroll">
+          <FoodPage />
+        </div>
+      );
     case "present":
-      return <PresentPage />;
+      return (
+        <div className="tab-scroll">
+          <PresentPage />
+        </div>
+      );
   }
 }
 
