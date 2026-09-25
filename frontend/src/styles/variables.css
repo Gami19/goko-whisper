@@ -1,29 +1,22 @@
 :root {
-  /* ベースカラー */
-  --color-bg: #0e0b12;
-  --color-bg-sub: #1a1520;
-  --color-border: #2e2838;
+  /* 地（経年した紙） */
+  --color-paper: #f5efeb;
+  --color-paper-card: #faf6f0;
 
-  /* メインアクセント */
-  --color-primary: #7b5ea7;
-  --color-glow: #b89fcc;
-  --color-paper: #c8b89a;
-  --color-porcelain: #eae4da;
+  /* 五高の赤レンガと真鍮 */
+  --color-brick: #8b3a2b;
+  --color-brick-dark: #662519;
+  --color-brass: #c5a059;
+  --color-brass-light: #e4cb8f;
 
-  /* アクセント（限定使用） */
-  --color-goal: #7a1f2e;
-  --color-stamp: #2a4a5e;
-  --color-warning: #b85c38;
+  /* 墨と藍 */
+  --color-ink: #2c2623;
+  --color-indigo: #1e2d3d;
+  --color-border-retro: #d8c8b8;
 
-  /* 囁きアニメーション用 */
-  --color-whisper-start: #3d2f55;
-
-  /* タイポグラフィ */
-  --font-serif: "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro",
-    serif;
-  --font-sans: "Yu Gothic", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
-    sans-serif;
-  --font-mono: ui-monospace, "SFMono-Regular", "Menlo", monospace;
+  /* 文字 */
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+  --font-roman: "Georgia", serif;
 
   /* レイアウト */
   --max-width: 480px;
@@ -31,6 +24,8 @@
   --spacing-lg: 3rem;
   --spacing-md: 2rem;
   --spacing-sm: 1rem;
+  --sheet-collapsed: 18%;
+  --sheet-half: 45%;
 
   /* アニメーション時間 */
   --transition-page: 0.4s;

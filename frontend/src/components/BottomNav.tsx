@@ -29,6 +29,11 @@ export function BottomNav() {
             <BottomNavIcon tab={id} />
           </span>
           <span className="bottom-nav__label">{label}</span>
+          {activeTab === id && (
+            <span className="bottom-nav__diamond" aria-hidden="true">
+              ◆
+            </span>
+          )}
         </button>
       ))}
     </nav>

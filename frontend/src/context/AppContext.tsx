@@ -7,6 +7,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { PinId } from "../data/map";
+import type { SheetLevel } from "../components/BottomSheet";
 import type { Screen, StampRallyState, Tab, WhisperId } from "../types";
 
 const STORAGE_KEY = "goko-whisper";
@@ -38,6 +40,12 @@ type AppContextValue = {
   markRedeemed: () => void;
   markSoldOut: () => void;
   clearPendingWhisper: () => void;
+  selectedPin: PinId | null;
+  sheetLevel: SheetLevel;
+  focusId: PinId | null;
+  focusToken: number;
+  openPin: (id: PinId) => void;
+  setSheetLevel: (level: SheetLevel) => void;
 };
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -197,6 +205,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(
     () => window.location.hash === "#admin",
   );
+  const [selectedPin, setSelectedPin] = useState<PinId | null>("goko");
+  const [sheetLevel, setSheetLevel] = useState<SheetLevel>("half");
+  const [focus, setFocus] = useState<{ id: PinId | null; token: number }>({
+    id: "goko",
+    token: 0,
+  });
 
   useEffect(() => {
     const sync = () => setIsAdmin(window.location.hash === "#admin");
@@ -258,6 +272,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setSoldOut(true);
   }, []);
 
+  const openPin = useCallback((id: PinId) => {
+    setSelectedPin(id);
+    setSheetLevel("half");
+    setFocus((current) => ({ id, token: current.token + 1 }));
+  }, []);
+
   const value = useMemo(
     () => ({
       storageBlocked,
@@ -277,6 +297,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       markRedeemed,
       markSoldOut,
       clearPendingWhisper,
+      selectedPin,
+      sheetLevel,
+      focusId: focus.id,
+      focusToken: focus.token,
+      openPin,
+      setSheetLevel,
     }),
     [
       storageBlocked,
@@ -294,6 +320,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       markRedeemed,
       markSoldOut,
       clearPendingWhisper,
+      selectedPin,
+      sheetLevel,
+      focus,
+      openPin,
+      setSheetLevel,
     ],
   );
 

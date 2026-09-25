@@ -4,67 +4,59 @@ type NavIconProps = {
   tab: Tab;
 };
 
-function HomeIcon() {
+function CompassIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.2" />
       <path
-        d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-8.5Z"
+        d="M12 4.2v2.1M12 17.7v2.1M4.2 12h2.1M17.7 12h2.1"
         stroke="currentColor"
-        strokeWidth="1.5"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+      <path
+        d="m12 7.2 2.1 6.3L12 12.2l-2.1 1.3L12 7.2Z"
+        stroke="currentColor"
+        strokeWidth="1.2"
         strokeLinejoin="round"
       />
     </svg>
   );
 }
 
-function FoodIcon() {
+function LanternIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
-        d="M6 11v8M8 11v8M6 7V5M8 7V5"
+        d="M12 2.8v2.2M9 5h6"
         stroke="currentColor"
-        strokeWidth="1.5"
+        strokeWidth="1.2"
         strokeLinecap="round"
       />
       <path
-        d="M14 5c0 2.5 1.5 4 3 6v8"
+        d="M8 8.2h8l-.9 8.6H8.9L8 8.2Z"
         stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
+        strokeWidth="1.2"
         strokeLinejoin="round"
       />
       <path
-        d="M12 19h8"
+        d="M10 19.2h4M9.2 21.2h5.6"
         stroke="currentColor"
-        strokeWidth="1.5"
+        strokeWidth="1.2"
         strokeLinecap="round"
       />
     </svg>
   );
 }
 
-function PresentIcon() {
+function BadgeIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect
-        x="4"
-        y="11"
-        width="16"
-        height="9"
-        rx="1"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
+      <circle cx="12" cy="9.5" r="5.2" stroke="currentColor" strokeWidth="1.2" />
       <path
-        d="M12 11v9M4 14h16"
+        d="m8.8 13.6-1 6.2 4.2-2.1 4.2 2.1-1-6.2"
         stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M12 11c-2.2 0-4-1.2-4-3.2S9.8 4 12 4s4 1.8 4 3.8S14.2 11 12 11Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
+        strokeWidth="1.2"
         strokeLinejoin="round"
       />
     </svg>
@@ -72,9 +64,9 @@ function PresentIcon() {
 }
 
 const ICONS: Record<Tab, () => React.JSX.Element> = {
-  home: HomeIcon,
-  food: FoodIcon,
-  present: PresentIcon,
+  home: CompassIcon,
+  food: LanternIcon,
+  present: BadgeIcon,
 };
 
 export function BottomNavIcon({ tab }: NavIconProps) {

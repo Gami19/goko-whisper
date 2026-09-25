@@ -112,6 +112,7 @@ export function GoalPage() {
 
   return (
     <PageLayout variant="goal">
+      <div className="retro-card">
       <MemorialSilhouette />
       <p className="goal-closing goal-closing-enter">
         あなたは今、
@@ -152,9 +153,10 @@ export function GoalPage() {
           <label className="text-hint" htmlFor="redeem-slider">
             横に滑らせて受取完了とする
           </label>
+          <div className="brass-lever">
           <input
             id="redeem-slider"
-            className="goal-slider"
+            className="brass-lever__input"
             type="range"
             min={0}
             max={100}
@@ -169,6 +171,7 @@ export function GoalPage() {
               void finishSlide(Number(event.currentTarget.value));
             }}
           />
+          </div>
           {verifyMessage && <p className="text-hint">{verifyMessage}</p>}
         </>
       )}
@@ -180,6 +183,7 @@ export function GoalPage() {
           onClick={() => setRevealed(true)}
         />
       )}
+      </div>
     </PageLayout>
   );
 }
