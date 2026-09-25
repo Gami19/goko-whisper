@@ -10,6 +10,6 @@ run_worker_first = ["/api/*"]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "goko-whisper"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_name = "goko-whispe-db"
+database_id = "d415717a-3069-4444-8b98-a675a32bb50c"
 migrations_dir = "migrations"
