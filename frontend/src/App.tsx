@@ -121,7 +121,7 @@ function HomeStage() {
     stamp2Done,
     selectedPin,
     sheetLevel,
-    focusId,
+    focusPoint,
     focusToken,
     openPin,
     setSheetLevel,
@@ -145,7 +145,9 @@ function HomeStage() {
     <div className="home-map">
       <MapViewer
         selectedId={selectedPin}
-        focusId={focusId}
+        focusX={focusPoint.x}
+        focusY={focusPoint.y}
+        focusZoom={focusPoint.zoom}
         focusToken={focusToken}
         reached={reached}
         sheetLevel={sheetLevel}

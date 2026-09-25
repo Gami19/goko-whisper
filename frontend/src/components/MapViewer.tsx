@@ -6,7 +6,9 @@ type Camera = { x: number; y: number; zoom: number };
 
 type MapViewerProps = {
   selectedId: PinId | null;
-  focusId: PinId | null;
+  focusX: number;
+  focusY: number;
+  focusZoom?: number;
   focusToken: number;
   reached: Record<PinId, boolean>;
   sheetLevel: SheetLevel;
@@ -22,7 +24,9 @@ function isPinId(value: string | null): value is PinId {
 
 export function MapViewer({
   selectedId,
-  focusId,
+  focusX,
+  focusY,
+  focusZoom,
   focusToken,
   reached,
   sheetLevel,
@@ -32,7 +36,9 @@ export function MapViewer({
   const stageRef = useRef<HTMLDivElement>(null);
   const pinRefs = useRef<Partial<Record<PinId, HTMLButtonElement>>>({});
   const cameraRef = useRef<Camera>({ x: 0, y: 0, zoom: 1 });
-  const centerRef = useRef<((id: PinId) => void) | null>(null);
+  const centerRef = useRef<
+    ((point: { x: number; y: number; zoom?: number }) => void) | null
+  >(null);
   const sheetLevelRef = useRef(sheetLevel);
   const onSelectRef = useRef(onSelect);
 
@@ -102,16 +108,17 @@ export function MapViewer({
       });
     };
 
-    const centerOn = (id: PinId) => {
-      const pin = MAP_PINS.find((item) => item.id === id);
-      if (!pin) return;
+    const centerOn = (point: { x: number; y: number; zoom?: number }) => {
       layout();
       const camera = cameraRef.current;
+      if (point.zoom !== undefined) {
+        camera.zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, point.zoom));
+      }
       const base = viewport.clientWidth;
       const cover = sheetLevelRef.current === "half" ? 0.45 : 0.18;
       const anchorY = (viewport.clientHeight * (1 - cover)) / 2;
-      camera.x = viewport.clientWidth / 2 - (pin.x / 100) * base * camera.zoom;
-      camera.y = anchorY - (pin.y / 100) * base * camera.zoom;
+      camera.x = viewport.clientWidth / 2 - (point.x / 100) * base * camera.zoom;
+      camera.y = anchorY - (point.y / 100) * base * camera.zoom;
       clamp();
       apply();
     };
@@ -119,7 +126,8 @@ export function MapViewer({
     centerRef.current = centerOn;
     layout();
     cameraRef.current.zoom = 1.15;
-    centerOn("goko");
+    const goko = MAP_PINS.find((pin) => pin.id === "goko");
+    if (goko) centerOn({ x: goko.x, y: goko.y });
 
     const onPointerDown = (event: PointerEvent) => {
       if (event.button !== 0) return;
@@ -214,13 +222,15 @@ export function MapViewer({
 
   useEffect(() => {
     sheetLevelRef.current = sheetLevel;
-    centerRef.current?.(selectedId ?? "goko");
+    const pin = MAP_PINS.find((item) => item.id === (selectedId ?? "goko"));
+    if (!pin) return;
+    centerRef.current?.({ x: pin.x, y: pin.y });
   }, [selectedId, sheetLevel]);
 
   useEffect(() => {
-    if (focusToken === 0 || !focusId) return;
-    centerRef.current?.(focusId);
-  }, [focusId, focusToken]);
+    if (focusToken === 0) return;
+    centerRef.current?.({ x: focusX, y: focusY, zoom: focusZoom });
+  }, [focusToken, focusX, focusY, focusZoom]);
 
   return (
     <div

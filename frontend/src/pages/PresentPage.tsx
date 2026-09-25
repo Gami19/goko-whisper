@@ -1,7 +1,18 @@
-import { DividerLine } from "../components/DividerLine";
+import { RallyImage } from "../components/RallyImage";
 import { PageLayout } from "../components/PageLayout";
 import { TextButton } from "../components/TextButton";
 import { useApp } from "../context/AppContext";
+
+const GIFTS = [
+  {
+    name: "「五高の囁き」限定バルーン",
+    image: "/images/balloon.webp",
+  },
+  {
+    name: "「五高の囁き」限定しおり",
+    image: "/images/bookmark.webp",
+  },
+];
 
 export function PresentPage() {
   const { stamp1Done, stamp2Done, setActiveTab, openPin } = useApp();
@@ -10,14 +21,16 @@ export function PresentPage() {
   return (
     <PageLayout variant="top">
       <h1 className="title-serif title-sm">参加特典</h1>
-      <DividerLine />
-      <p className="text-paper">
-        ゴール達成者向けの
-        <br />
-        限定特典を紹介予定です。
-      </p>
-      <DividerLine variant="dashed" />
-      <p className="text-hint">画像は準備中です</p>
+      <ul className="intro-list">
+        {GIFTS.map((gift) => (
+          <li key={gift.name}>
+            <article className="intro-card">
+              <RallyImage src={gift.image} alt="" />
+              <p className="intro-card__name">{gift.name}</p>
+            </article>
+          </li>
+        ))}
+      </ul>
       {both && (
         <TextButton
           label="五高記念館へ"
